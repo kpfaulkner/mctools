@@ -124,8 +124,8 @@ func TestOverwrite(t *testing.T) {
 }
 
 func TestRegionRoundtrip(t *testing.T) {
-	const File1 = "../testdata/newworld/region/r.0.-1.mca"
-	const File2 = "../testdata/newworld/region/r.100.-100.mca"
+	const File1 = "../testdata/newworld/region/r.0.0.mca"
+	const File2 = "../testdata/newworld/region/r.10.10.mca"
 
 	if !copyFile(File2, File1) {
 		return
@@ -136,27 +136,6 @@ func TestRegionRoundtrip(t *testing.T) {
 	if err != nil {
 		t.Errorf("Open 2: %v", err)
 		return
-	}
-
-	// Don't modify ra's contents, but force re-saving of the data using the
-	// region's write routines. We want to know if this works as expected by
-	// comparing its contents with those in File1.
-	//
-	// WriteChunk() implicitely rewrites the region header as well as the
-	// chunk data.
-	if ra.ChunkLen() > 0 {
-		var c Chunk
-		xz := ra.Chunks()[0]
-
-		if !ra.ReadChunk(xz[0], xz[1], &c) {
-			t.Errorf("ReadChunk failed")
-			return
-		}
-
-		if !ra.WriteChunk(xz[0], xz[1], &c) {
-			t.Errorf("WriteChunk failed")
-			return
-		}
 	}
 
 	err = ra.Save()
@@ -179,30 +158,27 @@ func TestRegionRoundtrip(t *testing.T) {
 		return
 	}
 
-	if ra.ChunkLen() != rb.ChunkLen() {
-		t.Errorf("roundtrip mismatch:\nWant: %+v\nHave: %+v", ra, rb)
+	if reflect.DeepEqual(ra, rb) {
+		return
 	}
 
-	if ra.ChunkLen() == 0 {
-		return
+	if ra.ChunkLen() != rb.ChunkLen() {
+		t.Errorf("chunk count mismatch:\nWant: %+v\nHave: %+v", ra, rb)
+	}
+
+	xza, xzb := ra.Chunks(), rb.Chunks()
+	if !reflect.DeepEqual(xza, xzb) {
+		t.Errorf("chunk listing mismatch:\nWant: %+v\nHave: %+v", xza, xzb)
 	}
 
 	var ca, cb Chunk
-	xza := ra.Chunks()[0]
-	xzb := rb.Chunks()[0]
+	for i := range xza {
+		ra.ReadChunk(xza[i][0], xza[i][1], &ca)
+		rb.ReadChunk(xzb[i][0], xzb[i][1], &cb)
 
-	if !ra.ReadChunk(xza[0], xza[1], &ca) {
-		t.Errorf("ReadChunk ra failed")
-		return
-	}
-
-	if !rb.ReadChunk(xzb[0], xzb[1], &cb) {
-		t.Errorf("ReadChunk rb failed")
-		return
-	}
-
-	if !reflect.DeepEqual(ca, cb) {
-		t.Errorf("roundtrip mismatch:\nWant: %+v\nHave: %+v", ca, cb)
+		if !reflect.DeepEqual(ca, cb) {
+			t.Errorf("roundtrip mismatch c(%d %d):\nWant: %+v\nHave: %+v", xza[i][0], xza[i][0], ca, cb)
+		}
 	}
 }
 
