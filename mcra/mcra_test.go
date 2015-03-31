@@ -29,7 +29,7 @@ func TestMain(t *testing.M) {
 		return
 	}
 
-	region, err = world.LoadRegion(mctools.DimensionOverworld, 0, -1)
+	region, err = world.LoadRegion(mctools.DimensionOverworld, 0, 0)
 	if err != nil {
 		fmt.Println(err)
 		return
@@ -43,8 +43,8 @@ func TestMain(t *testing.M) {
 func TestDungeons(t *testing.T) {
 	set := FindDungeons(region)
 
-	if len(set) != 5 {
-		t.Fatalf("expected 5 results; have %d", len(set))
+	if len(set) != 4 {
+		t.Fatalf("expected 4 results; have %d", len(set))
 	}
 }
 
@@ -62,8 +62,8 @@ func TestInclusionQuery(t *testing.T) {
 		item.Sandstone,
 	))
 
-	if result.Len() != 159713 {
-		t.Fatalf("expected 159713 results; have %d", result.Len())
+	if result.Len() != 30418 {
+		t.Fatalf("expected 30418 results; have %d", result.Len())
 	}
 }
 
@@ -73,8 +73,8 @@ func TestExclusionQuery(t *testing.T) {
 		item.Bedrock,
 	))
 
-	if result.Len() != 6355205 {
-		t.Fatalf("expected 6355205 results; have %d", result.Len())
+	if result.Len() != 14388403 {
+		t.Fatalf("expected 14388403 results; have %d", result.Len())
 	}
 }
 
@@ -89,8 +89,8 @@ func TestRadiusQuery(t *testing.T) {
 		item.Air,
 	))
 
-	if result.Len() != 964347 {
-		t.Fatalf("expected 964347 results; have %d", result.Len())
+	if result.Len() != 4303265 {
+		t.Fatalf("expected 4303265 results; have %d", result.Len())
 	}
 }
 
@@ -107,13 +107,13 @@ loopy:
 	for k, v := range tally {
 		switch k {
 		case item.RedstoneOre:
-			want = 11568
+			want = 24427
 			if v == want {
 				continue loopy
 			}
 
 		case item.DiamondOre:
-			want = 1440
+			want = 2964
 			if v == want {
 				continue loopy
 			}
