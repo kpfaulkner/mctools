@@ -24,10 +24,3 @@ Additionally, don't read/write world data which is currently being used by
 Minecraft itself. The behaviour of this undefined and will very likely end
 up in tears.
 
-
-### References
-
-* http://minecraft.gamepedia.com/Region_file_format
-* http://minecraft.gamepedia.com/Chunk_format
-* http://minecraft.gamepedia.com/Anvil_file_format
-* http://minecraft.gamepedia.com/Level_format
