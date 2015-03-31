@@ -108,8 +108,3 @@ If the encoder should not output a tag for an empty field, append the
 
 If `len(T.Data) == 0`, the encoder will ignore this field and no tag is
 emitted.
-
-
-### References
-
-* [NBT specification](http://minecraft.gamepedia.com/NBT_format)
