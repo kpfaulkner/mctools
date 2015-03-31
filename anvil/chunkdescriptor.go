@@ -66,24 +66,25 @@ func (cd *ChunkDescriptor) Read(c *Chunk) bool {
 
 	err = nbt.Unmarshal(r, &v)
 	r.Close()
-
 	return err == nil
 }
 
 // Write compresses the given chunk and writes the data into the current
 // chunk descriptor.
 func (cd *ChunkDescriptor) Write(c *Chunk) bool {
+	cd.LastModified = time.Now()
+	c.LastUpdate = cd.LastModified.Unix()
+
 	var buf bytes.Buffer
-	zl := zlib.NewWriter(&buf)
+	w := zlib.NewWriter(&buf)
 
 	var v struct {
 		Level *Chunk
 	}
-
 	v.Level = c
 
-	err := nbt.Marshal(zl, v)
-	zl.Close()
+	err := nbt.Marshal(w, v)
+	w.Close()
 
 	cd.data = buf.Bytes()
 	return err == nil
