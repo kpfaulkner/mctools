@@ -9,8 +9,6 @@ import (
 	"github.com/jteeuwen/mctools/anvil"
 )
 
-// http://minecraft.gamepedia.com/Coordinates
-
 // RegionCoords returns region coordinates from the given,
 // absolute block position.
 func RegionCoords(x, z int) (int, int) {
