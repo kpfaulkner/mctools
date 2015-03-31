@@ -202,6 +202,7 @@ func (r *Region) Chunks() [][2]int {
 }
 
 // HasChunk returns true if the given chunk exists in this region.
+// That is, it has been generated and contains data.
 func (r *Region) HasChunk(x, z int) bool {
 	n := chunkIndex(x, z)
 	return !r.chunks[n].Empty()
@@ -214,12 +215,7 @@ func (r *Region) HasChunk(x, z int) bool {
 // not be decompressed.
 func (r *Region) ReadChunk(x, z int, c *Chunk) bool {
 	n := chunkIndex(x, z)
-
-	if !r.chunks[n].Empty() {
-		return r.chunks[n].Read(c)
-	}
-
-	return false
+	return !r.chunks[n].Empty() && r.chunks[n].Read(c)
 }
 
 // WriteChunk writes compresses the given chunk data, so it may later be
@@ -242,9 +238,9 @@ func writeHeader(w io.WriteSeeker, set []ChunkDescriptor) error {
 
 		sectors := cd.SectorCount()
 		writeOffset(locations[:], cd.X, cd.Z, offset, sectors)
-		offset += sectors
-
 		writeTimestamp(timestamps[:], cd.X, cd.Z, cd.LastModified)
+
+		offset += sectors
 	}
 
 	_, err := w.Seek(0, 0)
@@ -311,6 +307,16 @@ func writeChunk(w io.WriteSeeker, cd ChunkDescriptor, offset int) error {
 
 	// Write compressed data.
 	_, err = w.Write(cd.data)
+	if err != nil {
+		return err
+	}
+
+	// Write padding.
+	padSize := cd.SectorCount()*sectorSize - len(cd.data)
+	if padSize > 0 {
+		_, err = w.Write(make([]byte, padSize))
+	}
+
 	return err
 }
 
