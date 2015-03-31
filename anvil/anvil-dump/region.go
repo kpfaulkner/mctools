@@ -39,6 +39,7 @@ func dumpRegion(w io.Writer, file string) error {
 			continue
 		}
 
+		fmt.Fprintf(w, "Chunk %d (offset: %d, sectors: %d):\n", i/4, offset, sectors)
 		err := dumpChunk(w, fd, offset)
 		if err != nil {
 			return err
@@ -51,30 +52,33 @@ func dumpRegion(w io.Writer, file string) error {
 // dumpChunk extracts a compressed chunk from the given reader and
 // dumps its NBT tag contents.
 func dumpChunk(w io.Writer, r io.ReadSeeker, offset int64) error {
-	address := offset * sectorSize
+	address := offset*sectorSize + 4
 	_, err := r.Seek(address, 0)
 	if err != nil {
 		return err
 	}
 
-	var header [5]byte
-	_, err = io.ReadFull(r, header[:])
+	var scheme [1]byte
+	_, err = io.ReadFull(r, scheme[:])
 	if err != nil {
 		return err
 	}
 
 	var rr io.ReadCloser
-	switch header[4] {
+	switch scheme[0] {
 	case 1:
-		rr, _ = gzip.NewReader(r)
+		rr, err = gzip.NewReader(r)
 	case 2:
-		rr, _ = zlib.NewReader(r)
+		rr, err = zlib.NewReader(r)
 	default:
-		return fmt.Errorf("chunk(%d); invalid compression scheme: %d", offset, header[4])
+		return fmt.Errorf("chunk(%d); invalid compression scheme: %d", offset, scheme[0])
 	}
 
-	defer rr.Close()
+	if err != nil {
+		return err
+	}
 
-	fmt.Fprintf(w, "Chunk %d:\n", offset)
-	return dump(w, rr)
+	err = dump(w, rr)
+	rr.Close()
+	return err
 }
