@@ -14,14 +14,18 @@ import (
 	"time"
 )
 
-// Reference: http://minecraft.gamepedia.com/Region_file_format
-
-// These values are here to aid in converting various coordinate
-// sets between one another: block->chunk, block->region, etc.
 const (
-	ChunksPerRegion = 32
-	BlocksPerChunk  = 16
-	BlocksPerRegion = BlocksPerChunk * ChunksPerRegion
+	// These values are here to aid in converting various coordinate
+	// sets between one another: block->chunk, block->region, etc.
+	ChunksPerRegion  = 32
+	BlocksPerChunk   = 16
+	BlocksPerSection = 16
+	SectionsPerChunk = 16
+	BlocksPerRegion  = BlocksPerChunk * ChunksPerRegion
+	MaxChunkHeight   = SectionsPerChunk * BlocksPerSection
+
+	// MaxLight defines the highest possible light level.
+	MaxLight = 15
 
 	// RegionFileExtension defines the file extension for region files.
 	RegionFileExtension = ".mca"

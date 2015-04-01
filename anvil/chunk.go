@@ -11,18 +11,6 @@ const (
 	ZLib = 2
 )
 
-const (
-	// MaxLight defines the highest possible light level.
-	MaxLight = 15
-
-	// SectionsPerChunk defines the maximum number of sections per chunk
-	SectionsPerChunk = 16
-
-	// MaxChunkHeight defines the maximum number of blocks a chunk can have
-	// in its Y direction.
-	MaxChunkHeight = SectionsPerChunk * BlocksPerChunk
-)
-
 // Tile Ticks represent block updates that need to happen because they could
 // not happen before the chunk was saved. Examples reasons for tile ticks
 // include redstone circuits needing to continue updating, water and lava
