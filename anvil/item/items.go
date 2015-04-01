@@ -191,7 +191,7 @@ const (
 	GreenStainedGlass          Id = 95 | 13<<16
 	RedStainedGlass            Id = 95 | 14<<16
 	BlackStainedGlass          Id = 95 | 15<<16
-	OakTrapdoor                Id = 96
+	WoodenTrapdoor             Id = 96
 	MonsterEggStone            Id = 97
 	MonsterEggCobblestone      Id = 97 | 1<<16
 	MonsterEggStoneBrick       Id = 97 | 2<<16
@@ -1160,7 +1160,7 @@ var Doors = []Id{
 	AcaciaDoorBlock,
 	DarkOakDoorBlock,
 	IronTrapdoor,
-	OakTrapdoor,
+	WoodenTrapdoor,
 	OakDoor,
 	SpruceDoor,
 	BirchDoor,
