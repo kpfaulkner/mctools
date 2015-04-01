@@ -52,10 +52,10 @@ func RegionCoords(name string) (int, int, bool) {
 
 // A region describes chunks with block data in a Minecraft world.
 type Region struct {
-	file   string                // Input file for this region.
-	chunks [1024]ChunkDescriptor // Chunk definitions in this region.
-	X      int                   // Region's X coordinate.
-	Z      int                   // Region's Z coordinate.
+	file   string                 // Input file for this region.
+	chunks [1024]*ChunkDescriptor // Chunk definitions in this region.
+	X      int                    // Region's X coordinate.
+	Z      int                    // Region's Z coordinate.
 }
 
 // CreateRegion creates an empty region file at the given location.
@@ -151,6 +151,10 @@ func (r *Region) Save() error {
 	offset := 2 // Skip first two offsets for header data.
 
 	for _, cd := range r.chunks {
+		if cd == nil {
+			continue
+		}
+
 		err = writeChunk(fd, cd, offset)
 		if err != nil {
 			return fmt.Errorf("anvil: r(%d %d) c(%d %d): %v", r.X, r.Z, cd.X, cd.Z, err)
@@ -166,10 +170,15 @@ func (r *Region) Save() error {
 // Note that Region.Save() must be called to persist these changes.
 func (r *Region) Clear() {
 	for i := range r.chunks {
+		if r.chunks[i] == nil {
+			continue
+		}
+
 		r.chunks[i].X = 0
 		r.chunks[i].Z = 0
 		r.chunks[i].scheme = 0
 		r.chunks[i].data = nil
+		r.chunks[i] = nil
 	}
 }
 
@@ -179,7 +188,7 @@ func (r *Region) ChunkLen() int {
 	var count int
 
 	for _, cd := range r.chunks {
-		if !cd.Empty() {
+		if cd != nil {
 			count++
 		}
 	}
@@ -193,7 +202,7 @@ func (r *Region) Chunks() [][2]int {
 	out := make([][2]int, 0, len(r.chunks))
 
 	for _, cd := range r.chunks {
-		if !cd.Empty() {
+		if cd != nil {
 			out = append(out, [2]int{cd.X, cd.Z})
 		}
 	}
@@ -205,7 +214,7 @@ func (r *Region) Chunks() [][2]int {
 // That is, it has been generated and contains data.
 func (r *Region) HasChunk(x, z int) bool {
 	n := chunkIndex(x, z)
-	return !r.chunks[n].Empty()
+	return r.chunks[n] != nil
 }
 
 // ReadChunk reads chunk data for the given coordinates into the specified
@@ -215,24 +224,38 @@ func (r *Region) HasChunk(x, z int) bool {
 // not be decompressed.
 func (r *Region) ReadChunk(x, z int, c *Chunk) bool {
 	n := chunkIndex(x, z)
-	return !r.chunks[n].Empty() && r.chunks[n].Read(c)
+
+	if r.chunks[n] == nil {
+		return false
+	}
+
+	return r.chunks[n].Read(c)
 }
 
 // WriteChunk writes compresses the given chunk data, so it may later be
 // persisted using Region.Save().
 func (r *Region) WriteChunk(x, z int, c *Chunk) bool {
 	n := chunkIndex(x, z)
+
+	if r.chunks[n] == nil {
+		r.chunks[n] = &ChunkDescriptor{
+			X:      x,
+			Z:      z,
+			scheme: ZLib,
+		}
+	}
+
 	return r.chunks[n].Write(c)
 }
 
 // writeHeader writes header data into the given writer.
-func writeHeader(w io.WriteSeeker, set []ChunkDescriptor) error {
+func writeHeader(w io.WriteSeeker, set []*ChunkDescriptor) error {
 	var locations, timestamps [sectorSize]byte
 
 	offset := 2 // Skip first two sectors for the header.
 
 	for _, cd := range set {
-		if cd.Empty() {
+		if cd == nil {
 			continue
 		}
 
@@ -282,11 +305,7 @@ func readHeader(r io.ReadSeeker) ([]byte, []byte, error) {
 }
 
 // writeChunk writes a chunk to the given stream.
-func writeChunk(w io.WriteSeeker, cd ChunkDescriptor, offset int) error {
-	if cd.Empty() {
-		return nil
-	}
-
+func writeChunk(w io.WriteSeeker, cd *ChunkDescriptor, offset int) error {
 	// Jump to chunk sector.
 	_, err := w.Seek(int64(offset)*sectorSize, 0)
 	if err != nil {
@@ -311,38 +330,36 @@ func writeChunk(w io.WriteSeeker, cd ChunkDescriptor, offset int) error {
 		return err
 	}
 
-	// Write padding.
-	padSize := cd.SectorCount()*sectorSize - len(cd.data)
-	if padSize > 0 {
-		_, err = w.Write(make([]byte, padSize))
-	}
-
+	// Pad data
+	padding := (cd.SectorCount() * sectorSize) - len(cd.data)
+	_, err = w.Write(make([]byte, padding))
 	return err
 }
 
 // readChunk reads a chunk from the given stream.
-func readChunk(r io.ReadSeeker, x, z, offset int, timestamps []byte) (ChunkDescriptor, error) {
-	var cd ChunkDescriptor
-	cd.X = x
-	cd.Z = z
-	cd.LastModified = readTimestamp(timestamps, x, z)
+func readChunk(r io.ReadSeeker, x, z, offset int, timestamps []byte) (*ChunkDescriptor, error) {
+	cd := &ChunkDescriptor{
+		X:            x,
+		Z:            z,
+		LastModified: readTimestamp(timestamps, x, z),
+	}
 
 	// Jump to chunk sector.
 	_, err := r.Seek(int64(offset)*sectorSize, 0)
 	if err != nil {
-		return cd, err
+		return nil, err
 	}
 
 	// Read compressed data size.
 	size, err := readU32(r)
 	if err != nil {
-		return cd, err
+		return nil, err
 	}
 
 	// Read compression scheme.
 	cd.scheme, err = readU8(r)
 	if err != nil {
-		return cd, err
+		return nil, err
 	}
 
 	// Read compressed data.

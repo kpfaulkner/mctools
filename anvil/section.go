@@ -42,7 +42,6 @@ func (s *Section) Init(y byte) {
 //
 // Returns false if the coordinates are out of range.
 func (s *Section) Write(x, y, z int, b *Block) bool {
-	y %= SectionsPerChunk
 	index := y*16*16 + z*16 + x
 
 	if index < 0 || index >= len(s.Blocks) {
@@ -70,7 +69,6 @@ func (s *Section) Write(x, y, z int, b *Block) bool {
 // Returns false if the block data could not be found. This can happen
 // when the coordinates are out of range.
 func (s *Section) Read(x, y, z int, b *Block) bool {
-	y %= SectionsPerChunk
 	index := y*16*16 + z*16 + x
 
 	if index < 0 || index >= len(s.Blocks) {

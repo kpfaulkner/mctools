@@ -22,9 +22,6 @@ type ChunkDescriptor struct {
 	scheme       byte      // Compression scheme.
 }
 
-// Empty returns true if this chunk has not been generated yet.
-func (cd *ChunkDescriptor) Empty() bool { return len(cd.data) == 0 }
-
 // SectorCount returns the number of sectors this chunk occupies.
 func (cd *ChunkDescriptor) SectorCount() int {
 	return int(math.Ceil(float64(len(cd.data)) / sectorSize))
@@ -66,13 +63,20 @@ func (cd *ChunkDescriptor) Read(c *Chunk) bool {
 
 	err = nbt.Unmarshal(r, &v)
 	r.Close()
-	return err == nil
+
+	if err != nil {
+		return false
+	}
+
+	return true
 }
 
 // Write compresses the given chunk and writes the data into the current
 // chunk descriptor.
 func (cd *ChunkDescriptor) Write(c *Chunk) bool {
 	cd.LastModified = time.Now()
+
+	c.UpdateHeightmap()
 	c.LastUpdate = cd.LastModified.Unix()
 
 	var buf bytes.Buffer

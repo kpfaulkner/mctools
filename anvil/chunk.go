@@ -141,6 +141,4 @@ func (c *Chunk) UpdateHeightmap() {
 			c.HeightMap[z*BlocksPerChunk+x] = int32(y)
 		}
 	}
-
-	c.LastUpdate = time.Now().Unix()
 }
