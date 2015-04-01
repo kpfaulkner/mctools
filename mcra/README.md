@@ -34,7 +34,7 @@ Finding blocks in a region:
 		item.Sand,
 		item.Sandstone,
 	))
-	
+
 	...
 
 	// Find everything, except Air and bedrock.
@@ -42,7 +42,7 @@ Finding blocks in a region:
 		item.Air,
 		item.Bedrock,
 	))
-	
+
 	// Find all redstone ore within a radius from a given point.
 	result := FindInRegion(region, NewRadiusQuery(
 		Location{...},
@@ -75,7 +75,7 @@ Tally all resources in a region:
 
 	tally := TallyInRegion(region)
 	...
-	
+
 	// yields:
 	//
 	//     Air 65184
@@ -109,5 +109,5 @@ console shows the locations of diamond ores in region `-1, 0` for a world with
 seed `2856811980450068479`. This is the world data in the `testdata/newworld`
 directory.
 
-![screenshot](https://raw.githubusercontent.com/jteeuwen/mcra/master/testdata/closeenough.png)
+![screenshot](https://raw.githubusercontent.com/jteeuwen/mctools/master/testdata/closeenough.png)
 
