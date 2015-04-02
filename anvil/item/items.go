@@ -480,7 +480,7 @@ const (
 	ClownfishCooked            Id = 350 | 2<<16
 	PufferfishCooked           Id = 350 | 3<<16
 	InkSac                     Id = 351
-	RoseRedDye                 Id = 351 | 1<<16
+	RedDye                     Id = 351 | 1<<16
 	GreenDye                   Id = 351 | 2<<16
 	CocoaBean                  Id = 351 | 3<<16
 	LapisLazuli                Id = 351 | 4<<16
@@ -864,7 +864,7 @@ var Spawners = []Id{
 // Dyes defines a set of all colour dyes.
 var Dyes = []Id{
 	InkSac,
-	RoseRedDye,
+	RedDye,
 	GreenDye,
 	CocoaBean,
 	LapisLazuli,
