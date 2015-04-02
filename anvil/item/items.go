@@ -98,10 +98,10 @@ const (
 	BlueOrchid                 Id = 38 | 1<<16
 	Allium                     Id = 38 | 2<<16
 	AzureBluet                 Id = 38 | 3<<16
-	TulipRed                   Id = 38 | 4<<16
-	TulipOrange                Id = 38 | 5<<16
-	TulipWhite                 Id = 38 | 6<<16
-	TulipPink                  Id = 38 | 7<<16
+	RedTulip                   Id = 38 | 4<<16
+	OrangeTulip                Id = 38 | 5<<16
+	WhiteTulip                 Id = 38 | 6<<16
+	PinkTulip                  Id = 38 | 7<<16
 	OxeyeDaisy                 Id = 38 | 8<<16
 	MushroomBrown              Id = 39
 	MushroomRed                Id = 40
@@ -1271,10 +1271,10 @@ var Plants = []Id{
 	BlueOrchid,
 	Allium,
 	AzureBluet,
-	TulipRed,
-	TulipOrange,
-	TulipWhite,
-	TulipPink,
+	RedTulip,
+	OrangeTulip,
+	WhiteTulip,
+	PinkTulip,
 	OxeyeDaisy,
 	Sunflower,
 	Lilac,
