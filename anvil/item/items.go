@@ -45,12 +45,12 @@ const (
 	GoldOre                    Id = 14
 	IronOre                    Id = 15
 	CoalOre                    Id = 16
-	Oak                        Id = 17
-	Spruce                     Id = 17 | 1<<16
-	Birch                      Id = 17 | 2<<16
-	Jungle                     Id = 17 | 3<<16
-	Oak4                       Id = 17 | 4<<16
-	Oak5                       Id = 17 | 5<<16
+	OakLog                     Id = 17
+	SpruceLog                  Id = 17 | 1<<16
+	BirchLog                   Id = 17 | 2<<16
+	JungleLog                  Id = 17 | 3<<16
+	Oak4Log                    Id = 17 | 4<<16
+	Oak5Log                    Id = 17 | 5<<16
 	OakLeaves                  Id = 18
 	SpruceLeaves               Id = 18 | 1<<16
 	BirchLeaves                Id = 18 | 2<<16
@@ -315,8 +315,8 @@ const (
 	BlackStainedGlassPane      Id = 160 | 15<<16
 	AcaciaLeaves               Id = 161
 	DarkOakLeaves              Id = 161 | 1<<16
-	Acacia                     Id = 162
-	DarkOak                    Id = 162 | 1<<16
+	AcaciaLog                  Id = 162
+	DarkOakLog                 Id = 162 | 1<<16
 	AcaciaStairs               Id = 163
 	DarkOakStairs              Id = 164
 	SlimeBlock                 Id = 165
@@ -1358,14 +1358,14 @@ var LeaveBlocks = []Id{
 
 // WoodBlocks defines a set of all known wood blocks.
 var WoodBlocks = []Id{
-	Oak,
-	Spruce,
-	Birch,
-	Jungle,
-	Oak4,
-	Oak5,
-	Acacia,
-	DarkOak,
+	OakLog,
+	SpruceLog,
+	BirchLog,
+	JungleLog,
+	Oak4Log,
+	Oak5Log,
+	AcaciaLog,
+	DarkOakLog,
 }
 
 // SandBlocks defines a set of all sand blocks.
