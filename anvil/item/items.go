@@ -481,7 +481,7 @@ const (
 	PufferfishCooked           Id = 350 | 3<<16
 	InkSac                     Id = 351
 	RoseRedDye                 Id = 351 | 1<<16
-	CactusGreenDye             Id = 351 | 2<<16
+	GreenDye                   Id = 351 | 2<<16
 	CocoaBean                  Id = 351 | 3<<16
 	LapisLazuli                Id = 351 | 4<<16
 	PurpleDye                  Id = 351 | 5<<16
@@ -490,7 +490,7 @@ const (
 	GrayDye                    Id = 351 | 8<<16
 	PinkDye                    Id = 351 | 9<<16
 	LimeDye                    Id = 351 | 10<<16
-	DandelionYellowDye         Id = 351 | 11<<16
+	YellowDye                  Id = 351 | 11<<16
 	LightBlueDye               Id = 351 | 12<<16
 	MagentaDye                 Id = 351 | 13<<16
 	OrangeDye                  Id = 351 | 14<<16
@@ -865,7 +865,7 @@ var Spawners = []Id{
 var Dyes = []Id{
 	InkSac,
 	RoseRedDye,
-	CactusGreenDye,
+	GreenDye,
 	CocoaBean,
 	LapisLazuli,
 	PurpleDye,
@@ -874,7 +874,7 @@ var Dyes = []Id{
 	GrayDye,
 	PinkDye,
 	LimeDye,
-	DandelionYellowDye,
+	YellowDye,
 	LightBlueDye,
 	MagentaDye,
 	OrangeDye,
