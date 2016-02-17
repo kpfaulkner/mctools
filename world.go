@@ -15,8 +15,8 @@ import (
 // Known dimension names.
 const (
 	DimensionOverworld = "region"
-	DimensionNether    = "DIM-1"
-	DimensionEnd       = "DIM1"
+	DimensionNether    = "DIM-1/region"
+	DimensionEnd       = "DIM1/region"
 )
 
 // World defines a single Minecraft world.
