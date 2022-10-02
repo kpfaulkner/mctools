@@ -11,7 +11,7 @@ import (
 	"math"
 	"time"
 
-	"github.com/jteeuwen/mctools/anvil/nbt"
+	"github.com/kpfaulkner/mctools/anvil/nbt"
 )
 
 // ChunkDescriptor describes a single chunk as stored in a region.

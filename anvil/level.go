@@ -9,7 +9,7 @@ import (
 	"compress/gzip"
 	"os"
 
-	"github.com/jteeuwen/mctools/anvil/nbt"
+	"github.com/kpfaulkner/mctools/anvil/nbt"
 )
 
 // GameMode defines the current game mode.

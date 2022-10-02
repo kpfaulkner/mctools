@@ -8,9 +8,9 @@ import (
 	"os"
 	"testing"
 
-	"github.com/jteeuwen/mctools"
-	"github.com/jteeuwen/mctools/anvil"
-	"github.com/jteeuwen/mctools/anvil/item"
+	"github.com/kpfaulkner/mctools"
+	"github.com/kpfaulkner/mctools/anvil"
+	"github.com/kpfaulkner/mctools/anvil/item"
 )
 
 var (

@@ -7,7 +7,7 @@ import (
 	"fmt"
 	"testing"
 
-	"github.com/jteeuwen/mctools/anvil/item"
+	"github.com/kpfaulkner/mctools/anvil/item"
 )
 
 func TestRecipe(t *testing.T) {

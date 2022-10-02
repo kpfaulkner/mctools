@@ -4,8 +4,8 @@
 package mcra
 
 import (
-	"github.com/jteeuwen/mctools/anvil"
-	"github.com/jteeuwen/mctools/anvil/item"
+	"github.com/kpfaulkner/mctools/anvil"
+	"github.com/kpfaulkner/mctools/anvil/item"
 )
 
 // TallyResult defines a table of unique item ids and the number of

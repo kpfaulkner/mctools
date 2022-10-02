@@ -3,7 +3,7 @@
 
 package anvil
 
-import "github.com/jteeuwen/mctools/anvil/item"
+import "github.com/kpfaulkner/mctools/anvil/item"
 
 // Section defines a section of blocks.
 //

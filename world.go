@@ -9,7 +9,7 @@ import (
 	"path"
 	"path/filepath"
 
-	"github.com/jteeuwen/mctools/anvil"
+	"github.com/kpfaulkner/mctools/anvil"
 )
 
 // Known dimension names.

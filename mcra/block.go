@@ -7,8 +7,8 @@ import (
 	"fmt"
 	"math"
 
-	"github.com/jteeuwen/mctools/anvil"
-	"github.com/jteeuwen/mctools/anvil/item"
+	"github.com/kpfaulkner/mctools/anvil"
+	"github.com/kpfaulkner/mctools/anvil/item"
 )
 
 // Location defines a specific block location in a world.

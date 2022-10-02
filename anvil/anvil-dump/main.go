@@ -10,7 +10,7 @@ import (
 	"path/filepath"
 	"strings"
 
-	"github.com/jteeuwen/mctools/anvil"
+	"github.com/kpfaulkner/mctools/anvil"
 )
 
 func main() {

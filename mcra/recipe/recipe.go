@@ -9,7 +9,7 @@ import (
 	"io"
 	"math"
 
-	"github.com/jteeuwen/mctools/anvil/item"
+	"github.com/kpfaulkner/mctools/anvil/item"
 )
 
 // Ingredient defines a single recipe ingredient. It holds an item id

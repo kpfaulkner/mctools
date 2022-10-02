@@ -4,7 +4,7 @@
 package anvil
 
 import (
-	"github.com/jteeuwen/mctools/anvil/item"
+	"github.com/kpfaulkner/mctools/anvil/item"
 )
 
 // Modifier defines an attribute modifier.

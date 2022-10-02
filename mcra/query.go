@@ -3,7 +3,7 @@
 
 package mcra
 
-import "github.com/jteeuwen/mctools/anvil/item"
+import "github.com/kpfaulkner/mctools/anvil/item"
 
 // Query defines a generic search query.
 type Query interface {
